@@ -17,7 +17,14 @@
   },
   "archive": {
     "title": "Archiwum wydań",
-    "empty": "Nie masz jeszcze żadnego wydania. Krytyk czeka."
+    "empty": "Nie masz jeszcze żadnego wydania. Krytyk czeka.",
+    "start": "Zamów pierwszą recenzję",
+    "issue": "Wydanie nr {number}",
+    "heat": {
+      "mild": "Łagodnie",
+      "spicy": "Pikantnie",
+      "merciless": "Bez litości"
+    }
   },
   "steam": {
     "title": "Twoja biblioteka Steam",
@@ -38,8 +45,7 @@
       "neverPlayed": "Nigdy nieuruchomione",
       "barelyPlayed": "Porzucone przed upływem godziny",
       "topShare": "Udział ulubionej gry w całym czasie"
-    },
-    "showDeck": "Pokaż prezentację"
+    }
   },
   "deck": {
     "demoBadge": "Demo: fikcyjny profil",
@@ -53,8 +59,8 @@
     },
     "opening": {
       "kicker": "Recenzja biblioteki Steam",
-      "struck": "Kolekcjoner",
-      "note": "raczej zbieracz",
+      "struck": "Wielka kolekcja",
+      "note": "raczej wysypisko",
       "body": "{games, plural, one {# gra} few {# gry} many {# gier} other {# gry}} w bibliotece. Krytyk przejrzał wszystko. Krytyk żałuje."
     },
     "hours": {
@@ -127,6 +133,49 @@
       "spray": "WSTYD",
       "disclaimer": "Projekt niepowiązany z Valve ani Steam.",
       "mastheadLine": "Yourself"
+    }
+  },
+  "roastForm": {
+    "title": "Zamów recenzję",
+    "heat": "Ostrość",
+    "heatLevels": {
+      "mild": {
+        "label": "Łagodnie",
+        "hint": "krytyk w dobrym humorze"
+      },
+      "spicy": {
+        "label": "Pikantnie",
+        "hint": "będzie szczypać"
+      },
+      "merciless": {
+        "label": "Bez litości",
+        "hint": "na własną odpowiedzialność"
+      }
+    },
+    "language": "Język recenzji",
+    "languages": {
+      "pl": "Polski",
+      "en": "Angielski"
+    },
+    "titlesHeading": "Tytuły, które zobaczy krytyk",
+    "titlesLead": "Te gry zostaną przekazane modelowi. Usuń te, których nie chcesz pokazywać; ich miejsce mogą zająć kolejne, a znikną też ze statystyk.",
+    "exclude": "Usuń",
+    "restore": "Przywróć usunięte ({count})",
+    "disclosure": "Statystyki i powyższe tytuły trafią przez OpenRouter do dostawcy modelu AI, z zakazem zbierania danych. Nazwa konta nie jest wysyłana. Limit: 3 recenzje dziennie.",
+    "submit": "Zrecenzuj mnie",
+    "errors": {
+      "limit": "Dzienny limit wyczerpany. Krytyk też musi kiedyś spać. Wróć jutro.",
+      "budget": "Redakcja wyczerpała budżet na ten miesiąc. Wróć później.",
+      "unavailable": "Steam nie pokazuje teraz Twoich gier. Sprawdź prywatność profilu i spróbuj ponownie.",
+      "not_linked": "Połączenie ze Steam wygasło. Odśwież stronę i połącz konto jeszcze raz.",
+      "unauthenticated": "Sesja wygasła. Zaloguj się ponownie.",
+      "failed": "Krytyk stracił wątek. Limit nie został zużyty, spróbuj ponownie."
+    },
+    "waiting": {
+      "line0": "krytyk zakłada okulary…",
+      "line1": "krytyk przegląda bibliotekę. wzdycha.",
+      "line2": "krytyk prosi o coś mocniejszego…",
+      "line3": "krytyk szuka czerwonego długopisu…"
     }
   }
 }

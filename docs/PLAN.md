@@ -153,7 +153,7 @@ Webhook Clerka `user.deleted` usuwa wszystkie dane użytkownika. Rozłączenie k
 - Automatycznie: zgodność ze schematem, poprawność liczb przytoczonych w tekście, język, długość, brak zakazanych tematów, odporność na prompt injection.
 - Ręcznie: humor oceniasz Ty, na podstawie obok siebie zestawionych wyników. Tego etapu nie da się zautomatyzować.
 
-**Błąd modelu:** jedna ponowna próba przy niepoprawnej odpowiedzi, potem komunikat w głosie krytyka. Nieudana próba nie zużywa limitu.
+**Błąd modelu:** do dwóch ponownych prób, w których model dostaje powód odrzucenia, potem komunikat w głosie krytyka. Nieudana próba nie zużywa limitu.
 
 ## 7. Etapy
 

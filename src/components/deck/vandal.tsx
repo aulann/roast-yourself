@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 const SLAP = { type: "spring", stiffness: 420, damping: 22 } as const;
 
@@ -160,15 +160,18 @@ export function Spray({
   delay = 0.5,
   rotate = -9,
   className = "",
+  style,
 }: {
   children: ReactNode;
   delay?: number;
   rotate?: number;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
     <motion.span
       aria-hidden
+      style={style}
       className={`spray pointer-events-none absolute font-hand font-bold text-vandal ${className}`}
       initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)", rotate }}
       animate={{ opacity: 0.92, clipPath: "inset(-20% -5% -20% 0)", rotate }}

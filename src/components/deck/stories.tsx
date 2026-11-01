@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { SlideView } from "@/components/deck/slide-view";
 import { SprayFilter } from "@/components/deck/vandal";
 import { Link } from "@/i18n/navigation";
+import type { DeckCopy } from "@/roast/copy";
 import type { DeckSlide } from "@/roast/deck";
 
 const HOLD_MS = 250;
@@ -16,10 +17,12 @@ const CONTROL =
 
 export function Stories({
   slides,
+  copy,
   closeHref,
   badge,
 }: {
   slides: DeckSlide[];
+  copy?: DeckCopy;
   closeHref: string;
   badge?: string;
 }) {
@@ -164,7 +167,7 @@ export function Stories({
                   {index + 1}
                 </span>
               )}
-              <SlideView slide={slides[index]} />
+              <SlideView slide={slides[index]} copy={copy?.[slides[index].type]} />
               <p className="absolute inset-x-[7cqw] bottom-[4cqw] flex justify-between border-t border-paper/20 pt-[1.5cqw] font-mono text-[2.6cqw] uppercase tracking-widest text-muted">
                 <span>Roast Yourself</span>
                 <span>

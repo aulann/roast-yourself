@@ -17,7 +17,14 @@
   },
   "archive": {
     "title": "Back issues",
-    "empty": "No issues yet. The critic is waiting."
+    "empty": "No issues yet. The critic is waiting.",
+    "start": "Order your first review",
+    "issue": "Issue No. {number}",
+    "heat": {
+      "mild": "Mild",
+      "spicy": "Spicy",
+      "merciless": "Merciless"
+    }
   },
   "steam": {
     "title": "Your Steam library",
@@ -38,8 +45,7 @@
       "neverPlayed": "Never launched",
       "barelyPlayed": "Dropped within an hour",
       "topShare": "Favourite game's share of all time"
-    },
-    "showDeck": "Show the presentation"
+    }
   },
   "deck": {
     "demoBadge": "Demo: fictional profile",
@@ -127,6 +133,49 @@
       "spray": "SHAME",
       "disclaimer": "Not affiliated with Valve or Steam.",
       "mastheadLine": "Yourself"
+    }
+  },
+  "roastForm": {
+    "title": "Order a review",
+    "heat": "Heat",
+    "heatLevels": {
+      "mild": {
+        "label": "Mild",
+        "hint": "the critic is in a good mood"
+      },
+      "spicy": {
+        "label": "Spicy",
+        "hint": "it will sting"
+      },
+      "merciless": {
+        "label": "Merciless",
+        "hint": "at your own risk"
+      }
+    },
+    "language": "Review language",
+    "languages": {
+      "pl": "Polish",
+      "en": "English"
+    },
+    "titlesHeading": "Titles the critic will see",
+    "titlesLead": "These games go to the model. Remove any you would rather not show; others may take their place, and removed games also leave the stats.",
+    "exclude": "Remove",
+    "restore": "Restore removed ({count})",
+    "disclosure": "The stats and the titles above go through OpenRouter to an AI model provider, with data collection denied. Your account name is not sent. Limit: 3 reviews a day.",
+    "submit": "Review me",
+    "errors": {
+      "limit": "Daily limit reached. Even the critic has to sleep. Come back tomorrow.",
+      "budget": "The editors have spent the budget for this month. Come back later.",
+      "unavailable": "Steam is not showing your games right now. Check your profile privacy and try again.",
+      "not_linked": "Your Steam connection expired. Refresh the page and connect again.",
+      "unauthenticated": "Your session expired. Please sign in again.",
+      "failed": "The critic lost the thread. Your limit was not used, so please try again."
+    },
+    "waiting": {
+      "line0": "the critic puts on the glasses…",
+      "line1": "the critic browses your library. sighs.",
+      "line2": "the critic asks for something stronger…",
+      "line3": "the critic looks for the red pen…"
     }
   }
 }

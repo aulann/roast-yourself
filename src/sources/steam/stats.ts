@@ -29,7 +29,7 @@ export type SteamStats = {
   playtime: SteamPlaytimeStats | null;
 };
 
-function gameName(game: SteamGame) {
+export function gameName(game: SteamGame) {
   const name = game.name?.trim() || `App ${game.appid}`;
   return name.slice(0, MAX_NAME_LENGTH);
 }
