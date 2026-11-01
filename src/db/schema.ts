@@ -14,6 +14,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const roastSource = pgEnum("roast_source", [
+  "steam",
   "spotify_export",
   "spotify_oauth",
 ]);

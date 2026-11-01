@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Roast Yourself",
-    "description": "Wgraj dane ze Spotify i pozwól znudzonemu krytykowi zrecenzować Twój gust."
+    "description": "Pokaż znudzonemu krytykowi swoją bibliotekę Steam i pozwól mu zrecenzować Twój gust."
   },
   "nav": {
     "archive": "Archiwum",
@@ -11,10 +11,32 @@
     "issue": "Wydanie nr 00",
     "title": "Sztuka dobrego gustu",
     "correction": "tu będzie demolka",
-    "lead": "Krytyk jeszcze się rozkłada. Wróć wkrótce i przynieś swoje dane ze Spotify."
+    "lead": "Krytyk jeszcze się rozkłada, ale Twoją bibliotekę Steam już przejrzy.",
+    "cta": "Połącz Steam"
   },
   "archive": {
     "title": "Archiwum wydań",
     "empty": "Nie masz jeszcze żadnego wydania. Krytyk czeka."
+  },
+  "steam": {
+    "title": "Twoja biblioteka Steam",
+    "connectLead": "Potwierdź swoje konto na stronie Steam. Nie widzimy Twojego hasła, a pobieramy tylko publiczne dane o grach.",
+    "connect": "Zaloguj się przez Steam",
+    "connectFailed": "Nie udało się potwierdzić konta Steam. Spróbuj ponownie.",
+    "connectedAs": "Konto: {name}",
+    "disconnect": "Rozłącz konto Steam",
+    "unavailable": "Steam teraz nie odpowiada albo nie znalazł tego konta. Spróbuj ponownie za chwilę.",
+    "private": "{name}, Twoje dane o grach są ukryte. W ustawieniach prywatności Steam ustaw profil i szczegóły gier jako publiczne, a potem odśwież stronę.",
+    "playtimeHidden": "Steam nie pokazuje czasu gry na tym koncie. Sprawdź, czy czas gry nie jest ukryty w ustawieniach prywatności.",
+    "topGames": "Najwięcej godzin",
+    "disclaimer": "Projekt nie jest powiązany z Valve ani Steam i nie ma ich poparcia. Dane pochodzą ze Steam.",
+    "stats": {
+      "games": "Gry w bibliotece",
+      "hours": "Łącznie godzin",
+      "recentHours": "Godziny w ostatnich 2 tygodniach",
+      "neverPlayed": "Nigdy nieuruchomione",
+      "barelyPlayed": "Porzucone przed upływem godziny",
+      "topShare": "Udział ulubionej gry w całym czasie"
+    }
   }
 }

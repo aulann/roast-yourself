@@ -2,7 +2,7 @@
 
 > Stan na 2026-11-01. Roboczy dokument projektu.
 
-Wgrywasz swoje dane ze Spotify, a znudzony krytyk robi z nich złośliwą prezentację w stylu stories: ze statystykami, wykresami i okładką magazynu do udostępnienia. Później dochodzą YouTube, Steam, GitHub i kolejne źródła.
+Łączysz swoje konto Steam, a znudzony krytyk robi z danych złośliwą prezentację w stylu stories: ze statystykami, wykresami i okładką magazynu do udostępnienia. Później dochodzą Spotify, GitHub, YouTube i kolejne źródła.
 
 **Cele:** projekt do portfolio i publiczne repo na GitHubie, a przede wszystkim coś na tyle śmiesznego, żeby ludzie chcieli to pokazywać.
 
@@ -25,8 +25,14 @@ Wgrywasz swoje dane ze Spotify, a znudzony krytyk robi z nich złośliwą prezen
 | Repozytorium | Publiczne od początku, licencja MIT |
 | Testy | Parser i statystyki, Playwright dla głównej ścieżki, evale roastów, wszystko w CI |
 
-### Wymienione przez Ciebie źródła docelowe
-Spotify na start, potem YouTube, Steam, GitHub i „coś jeszcze” (kandydaci: Last.fm, Letterboxd). Warunki każdego źródła sprawdzamy, zanim zaczniemy je budować.
+### Kolejność źródeł
+**Steam na start** (zmiana z 2026-11-01: najprostsze wdrożenie, bez czekania na eksport), potem Spotify, GitHub, YouTube i „coś jeszcze” (kandydaci: Last.fm, Letterboxd). Warunki każdego źródła sprawdzamy, zanim zaczniemy je budować. Ustalenia i układ slajdów opisane poniżej dla Spotify obowiązują, gdy to źródło będzie budowane.
+
+### Steam
+- **Potwierdzenie konta:** „Sign in through Steam” (OpenID 2.0), po zalogowaniu w Clerku. Nie ma wpisywania cudzych profili, bo [warunki API](https://steamcommunity.com/dev/apiterms) pozwalają pobierać dane tylko na prośbę użytkownika, którego dotyczą.
+- **Połączenie:** podpisane ciasteczko na godzinę, związane z kontem Clerk. SteamID nie jest zapisywane w bazie.
+- **Klucz API:** tylko na serwerze (`STEAM_WEB_API_KEY`), limit 100 000 wywołań dziennie.
+- **Statystyki v1:** liczba gier, łączny czas, czas z 2 tygodni, nigdy nieuruchomione, porzucone przed upływem godziny, top 5, udział ulubionej gry, najdłużej porzucony tytuł. Osiągnięcia wymagają osobnego wywołania na każdą grę, więc na razie odpadają.
 
 ## 2. Ryzyka i ograniczenia
 
@@ -36,6 +42,8 @@ Spotify na start, potem YouTube, Steam, GitHub i „coś jeszcze” (kandydaci: 
 - **R4. Dane wysyłane do modelu.** Plik nie opuszcza urządzenia, ale statystyki z nazwami wykonawców i utworów trafiają na serwer, do OpenRoutera i dostawcy modelu. Tekst w aplikacji i polityka prywatności muszą mówić dokładnie to, bez obietnicy „nic nie wychodzi z telefonu”. Ścieżka OAuth pobiera dane przez serwer, więc jest opisana osobno. Trzeba też sprawdzić politykę retencji dostawcy i włączyć w OpenRouterze blokadę zbierania danych, jeśli model na to pozwala.
 - **R5. Niezaufane dane wejściowe.** Statystyki liczone w przeglądarce można sfałszować, a nazwy utworów mogą zawierać prompt injection. Stąd: walidacja Zod, limity długości i liczby pozycji, oddzielenie danych od instrukcji w prompcie oraz walidacja odpowiedzi modelu. Skoro publiczny link działa pod naszą domeną, ktoś może też próbować wymusić obraźliwe treści, więc potrzebna jest możliwość ich zdjęcia.
 - **R6. Wrażliwe treści.** Model nie żartuje ze zdrowia, orientacji, religii, polityki, pochodzenia ani wyglądu. Podcasty i audiobooki nie trafiają do modelu w v1, bo najłatwiej z nich wywnioskować takie rzeczy. Wyśmiewamy gust, a nie osobę.
+- **R8. Warunki Steama.** Dane można przekazywać użytkownikom „do ich osobistego użytku”, a warunki nie mówią nic o AI. Nie jest jasne, czy obejmuje to publiczne linki, więc przed M4 trzeba to rozważyć; bezpieczniej udostępniać sam roast bez pełnych danych z biblioteki. Przed premierą wymagane są: polityka prywatności z informacją o przechowywanych danych i kraju ich przechowywania oraz brak sugestii powiązania z Valve. Valve prosi też o użycie [oficjalnego przycisku logowania](https://steamcommunity.com/dev), który trzeba wstawić zamiast obecnego tekstowego.
+- **R9. Zawartość biblioteki.** Tytuły gier mogą ujawniać treści dla dorosłych. Przed wysłaniem do modelu podgląd musi pozwalać wykluczyć wybrane gry, a publiczny link nie może odsłaniać ich bez wiedzy użytkownika.
 - **R7. Niezweryfikowane założenia.** Identyfikator modelu i obsługę structured outputs znam tylko ze [źródeł zewnętrznych](https://www.llmreference.com/model/deepseek-v4.1-flash/openrouter), które nie zgadzają się co do ceny. Dokładny format eksportu sprawdzimy na prawdziwych plikach. Koszt roastu policzymy w M3.
 
 ## 3. Ścieżka użytkownika
@@ -152,13 +160,13 @@ Webhook Clerka `user.deleted` usuwa wszystkie dane użytkownika. Rozłączenie k
 | Etap | Zakres | Gotowe, gdy |
 |---|---|---|
 | **M0 Fundament** | Repo, MIT, Next.js, CI, deploy na Vercel, Clerk, Neon, i18n | Pusta aplikacja z logowaniem działa pod publicznym adresem |
-| **M1 Dane** | Parser w Workerze, statystyki, testy na prawdziwych eksportach | Twój eksport daje poprawne statystyki, a plik nie wychodzi z przeglądarki |
+| **M1 Dane** | Logowanie przez Steam, pobieranie danych, statystyki, testy | Twoje konto Steam daje poprawne statystyki, a profil prywatny dostaje jasny komunikat |
 | **M2 Prezentacja** | System designu, stories, wykresy, wandalizm, demo na ręcznie napisanych danych | Demo robi wrażenie na telefonie, zanim powstanie integracja z modelem |
 | **M3 Roast** | Prompty, schemat, OpenRouter, limity, budżet, evale, ekran oczekiwania | Pełna ścieżka działa po polsku i angielsku; znamy koszt jednego roastu |
 | **M4 Publikacja wyników** | Archiwum, linki, grafiki, usuwanie danych | Link i grafika działają poza aplikacją, a dane da się usunąć |
-| **M5 OAuth Spotify** | Moduł OAuth za flagą, krótsza prezentacja | Działa dla użytkowników z listy, a po wyłączeniu flagi reszta aplikacji działa bez zmian |
+| **M5 Spotify** | Parser eksportu w Workerze, moduł OAuth za flagą, krótsza prezentacja dla OAuth | Twój eksport daje poprawne statystyki, a po wyłączeniu flagi OAuth reszta aplikacji działa bez zmian |
 | **M6 Premiera** | Strona główna z niszczoną okładką, polityka prywatności, README z architekturą i GIF-em, testy na urządzeniach | Można wysłać link rekruterowi |
-| **M7+ Kolejne źródła** | GitHub, Steam, YouTube (Takeout), roast łączący źródła | Każde po sprawdzeniu warunków |
+| **M7+ Kolejne źródła** | GitHub, YouTube (Takeout), roast łączący źródła | Każde po sprawdzeniu warunków |
 
 Prezentacja celowo powstaje przed integracją z modelem: to z niej wynika, jakich tekstów potrzebujemy i jaki kształt ma mieć schemat.
 

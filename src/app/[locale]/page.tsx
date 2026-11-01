@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -15,6 +16,12 @@ export default function HomePage() {
         {t("correction")}
       </p>
       <p className="max-w-md text-muted">{t("lead")}</p>
+      <Link
+        href="/roast/steam"
+        className="self-start border border-paper px-4 py-3 font-mono text-xs uppercase tracking-widest"
+      >
+        {t("cta")}
+      </Link>
     </main>
   );
 }

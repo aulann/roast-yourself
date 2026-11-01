@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Roast Yourself",
-    "description": "Upload your Spotify data and let a bored critic review your taste."
+    "description": "Show a bored critic your Steam library and let them review your taste."
   },
   "nav": {
     "archive": "Archive",
@@ -11,10 +11,32 @@
     "issue": "Issue No. 00",
     "title": "The Art of Good Taste",
     "correction": "demolition pending",
-    "lead": "The critic is still unpacking. Come back soon and bring your Spotify data."
+    "lead": "The critic is still unpacking, but your Steam library is already under review.",
+    "cta": "Connect Steam"
   },
   "archive": {
     "title": "Back issues",
     "empty": "No issues yet. The critic is waiting."
+  },
+  "steam": {
+    "title": "Your Steam library",
+    "connectLead": "Confirm your account on the Steam website. We never see your password and only read public game data.",
+    "connect": "Sign in through Steam",
+    "connectFailed": "We could not confirm your Steam account. Please try again.",
+    "connectedAs": "Account: {name}",
+    "disconnect": "Disconnect Steam account",
+    "unavailable": "Steam is not responding or could not find this account. Please try again shortly.",
+    "private": "{name}, your game data is hidden. Set your profile and game details to public in your Steam privacy settings, then refresh this page.",
+    "playtimeHidden": "Steam does not show playtime for this account. Check that playtime is not hidden in your privacy settings.",
+    "topGames": "Most hours",
+    "disclaimer": "This project is not affiliated with or endorsed by Valve or Steam. Data comes from Steam.",
+    "stats": {
+      "games": "Games in library",
+      "hours": "Total hours",
+      "recentHours": "Hours in the last 2 weeks",
+      "neverPlayed": "Never launched",
+      "barelyPlayed": "Dropped within an hour",
+      "topShare": "Favourite game's share of all time"
+    }
   }
 }
