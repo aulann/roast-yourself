@@ -16,12 +16,20 @@ export default function HomePage() {
         {t("correction")}
       </p>
       <p className="max-w-md text-muted">{t("lead")}</p>
-      <Link
-        href="/roast/steam"
-        className="self-start border border-paper px-4 py-3 font-mono text-xs uppercase tracking-widest"
-      >
-        {t("cta")}
-      </Link>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href="/demo"
+          className="bg-vandal px-4 py-3 font-mono text-xs uppercase tracking-widest text-paper"
+        >
+          {t("demo")}
+        </Link>
+        <Link
+          href="/roast/steam"
+          className="border border-paper px-4 py-3 font-mono text-xs uppercase tracking-widest"
+        >
+          {t("cta")}
+        </Link>
+      </div>
     </main>
   );
 }

@@ -10,12 +10,14 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate"
+    "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.23",
     "@neondatabase/serverless": "^1.2.0",
     "drizzle-orm": "^0.45.4",
+    "motion": "^14.9.0",
     "next": "16.4.3",
     "next-intl": "^4.14.9",
     "react": "19.3.0",
@@ -23,6 +25,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^24.19.2",
     "@types/react": "^19",

@@ -12,7 +12,8 @@
     "title": "The Art of Good Taste",
     "correction": "demolition pending",
     "lead": "The critic is still unpacking, but your Steam library is already under review.",
-    "cta": "Connect Steam"
+    "cta": "Connect Steam",
+    "demo": "Watch the demo"
   },
   "archive": {
     "title": "Back issues",
@@ -37,6 +38,95 @@
       "neverPlayed": "Never launched",
       "barelyPlayed": "Dropped within an hour",
       "topShare": "Favourite game's share of all time"
+    },
+    "showDeck": "Show the presentation"
+  },
+  "deck": {
+    "demoBadge": "Demo: fictional profile",
+    "controls": {
+      "previous": "Previous slide",
+      "next": "Next slide",
+      "pause": "Pause",
+      "play": "Play",
+      "close": "Close",
+      "position": "Slide {current} of {total}"
+    },
+    "opening": {
+      "kicker": "Steam library review",
+      "struck": "Collector",
+      "note": "more like hoarder",
+      "body": "{games, plural, one {# game} other {# games}} in the library. The critic went through it all. The critic regrets it."
+    },
+    "hours": {
+      "kicker": "Exhibit A",
+      "unit": "hours played",
+      "body": "That is {days, plural, one {# day} other {# days}} straight, with no sleep and no sunlight.",
+      "note": "the sun still exists"
+    },
+    "suspect": {
+      "kicker": "Prime suspect",
+      "body": "{hours, plural, one {# hour} other {# hours}}, or {share} of all time spent on Steam.",
+      "note": "not a hobby, a relationship",
+      "spray": "GUILTY"
+    },
+    "ranking": {
+      "kicker": "Hall of shame",
+      "note": "a podium nobody ordered"
+    },
+    "backlog": {
+      "kicker": "The pile of shame",
+      "chartLabel": "{share} of the library was never launched",
+      "body": "{neverPlayed} of {total} games were never launched. Was downloading them too much effort?",
+      "note": "a sale is not a personality"
+    },
+    "dropped": {
+      "kicker": "Brief affairs",
+      "unit": "{count, plural, one {game dropped} other {games dropped}}",
+      "body": "All within an hour. That is one long tutorial.",
+      "note": "swift judgement. bravo.",
+      "spray": "BYE"
+    },
+    "abandoned": {
+      "kicker": "Missing in action",
+      "body": "{hours, plural, one {# hour} other {# hours}} together, then {years, plural, one {a year} other {# years}} of silence.",
+      "note": "it is still waiting"
+    },
+    "recent": {
+      "kicker": "The last 2 weeks",
+      "unit": "hours",
+      "noteIdle": "even a library deserves a rest",
+      "noteMild": "moderate. for now.",
+      "noteBusy": "that is nearly a second job",
+      "spray": "AGAIN?!"
+    },
+    "verdict": {
+      "kicker": "Final review",
+      "signature": "— The Critic",
+      "full": {
+        "title": "Two stars. One for attendance.",
+        "body": "Impressive in scope, regrettable in execution. Backlog to clear: the rest of your life."
+      },
+      "hidden": {
+        "title": "Playtime hidden.",
+        "body": "The critic understands. The critic would hide it too."
+      },
+      "empty": {
+        "title": "An empty library.",
+        "body": "The first good decision on display here."
+      }
+    },
+    "cover": {
+      "masthead": "Roast",
+      "issue": "Special issue",
+      "exclusive": "Exclusive: {name}",
+      "backlog": "{share} of games untouched. A scandal.",
+      "obsession": "{game}: a {hours}-hour relationship",
+      "hours": "{hours} hours and nothing to show",
+      "unknown": "No data. No mercy.",
+      "note": "go outside. seriously.",
+      "spray": "SHAME",
+      "disclaimer": "Not affiliated with Valve or Steam.",
+      "mastheadLine": "Yourself"
     }
   }
 }

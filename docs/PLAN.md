@@ -161,7 +161,7 @@ Webhook Clerka `user.deleted` usuwa wszystkie dane użytkownika. Rozłączenie k
 |---|---|---|
 | **M0 Fundament** | Repo, MIT, Next.js, CI, deploy na Vercel, Clerk, Neon, i18n | Pusta aplikacja z logowaniem działa pod publicznym adresem |
 | **M1 Dane** | Logowanie przez Steam, pobieranie danych, statystyki, testy | Twoje konto Steam daje poprawne statystyki, a profil prywatny dostaje jasny komunikat |
-| **M2 Prezentacja** | System designu, stories, wykresy, wandalizm, demo na ręcznie napisanych danych | Demo robi wrażenie na telefonie, zanim powstanie integracja z modelem |
+| **M2 Prezentacja** | System designu, stories, wykresy, wandalizm, demo na fikcyjnym profilu i tekstach pisanych ręcznie (zastąpi je model w M3) | Demo robi wrażenie na telefonie, zanim powstanie integracja z modelem |
 | **M3 Roast** | Prompty, schemat, OpenRouter, limity, budżet, evale, ekran oczekiwania | Pełna ścieżka działa po polsku i angielsku; znamy koszt jednego roastu |
 | **M4 Publikacja wyników** | Archiwum, linki, grafiki, usuwanie danych | Link i grafika działają poza aplikacją, a dane da się usunąć |
 | **M5 Spotify** | Parser eksportu w Workerze, moduł OAuth za flagą, krótsza prezentacja dla OAuth | Twój eksport daje poprawne statystyki, a po wyłączeniu flagi OAuth reszta aplikacji działa bez zmian |

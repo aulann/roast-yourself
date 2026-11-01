@@ -4,7 +4,7 @@ import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { redirect } from "@/i18n/navigation";
+import { Link, redirect } from "@/i18n/navigation";
 import { fetchSteamProfile, type SteamProfile } from "@/sources/steam/client";
 import { readSteamLink, STEAM_LINK_COOKIE } from "@/sources/steam/link";
 import { computeSteamStats } from "@/sources/steam/stats";
@@ -71,6 +71,12 @@ async function SteamStatsView({
   return (
     <>
       <p className="text-muted">{t("connectedAs", { name: profile.name })}</p>
+      <Link
+        href="/roast/steam/deck"
+        className="self-start bg-vandal px-4 py-3 font-mono text-xs uppercase tracking-widest text-paper"
+      >
+        {t("showDeck")}
+      </Link>
       <dl className="grid max-w-xl grid-cols-[1fr_auto] gap-x-8 gap-y-2">
         {rows.map(([label, value]) => (
           <div key={label} className="contents">

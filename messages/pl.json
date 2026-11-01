@@ -12,7 +12,8 @@
     "title": "Sztuka dobrego gustu",
     "correction": "tu będzie demolka",
     "lead": "Krytyk jeszcze się rozkłada, ale Twoją bibliotekę Steam już przejrzy.",
-    "cta": "Połącz Steam"
+    "cta": "Połącz Steam",
+    "demo": "Obejrzyj demo"
   },
   "archive": {
     "title": "Archiwum wydań",
@@ -37,6 +38,95 @@
       "neverPlayed": "Nigdy nieuruchomione",
       "barelyPlayed": "Porzucone przed upływem godziny",
       "topShare": "Udział ulubionej gry w całym czasie"
+    },
+    "showDeck": "Pokaż prezentację"
+  },
+  "deck": {
+    "demoBadge": "Demo: fikcyjny profil",
+    "controls": {
+      "previous": "Poprzedni slajd",
+      "next": "Następny slajd",
+      "pause": "Wstrzymaj",
+      "play": "Wznów",
+      "close": "Zamknij",
+      "position": "Slajd {current} z {total}"
+    },
+    "opening": {
+      "kicker": "Recenzja biblioteki Steam",
+      "struck": "Kolekcjoner",
+      "note": "raczej zbieracz",
+      "body": "{games, plural, one {# gra} few {# gry} many {# gier} other {# gry}} w bibliotece. Krytyk przejrzał wszystko. Krytyk żałuje."
+    },
+    "hours": {
+      "kicker": "Dowód nr 1",
+      "unit": "godzin w grach",
+      "body": "To {days, plural, one {# dzień} other {# dni}} bez przerwy, bez snu i bez światła słonecznego.",
+      "note": "słońce nadal istnieje"
+    },
+    "suspect": {
+      "kicker": "Główny podejrzany",
+      "body": "{hours, plural, one {# godzina} few {# godziny} many {# godzin} other {# godziny}}, czyli {share} całego czasu na Steamie.",
+      "note": "to już nie hobby, to związek",
+      "spray": "WINA!"
+    },
+    "ranking": {
+      "kicker": "Lista hańby",
+      "note": "podium, którego nikt nie zamawiał"
+    },
+    "backlog": {
+      "kicker": "Kupka wstydu",
+      "chartLabel": "{share} biblioteki nigdy nie uruchomiono",
+      "body": "{neverPlayed} z {total} gier nigdy nie uruchomiono. Pobrać też się nie chciało?",
+      "note": "promocja to nie osobowość"
+    },
+    "dropped": {
+      "kicker": "Szybkie rozstania",
+      "unit": "{count, plural, one {gra porzucona} few {gry porzucone} many {gier porzuconych} other {gry porzucone}}",
+      "body": "Wszystkie przed upływem godziny. Tyle trwa dłuższy samouczek.",
+      "note": "błyskawiczna ocena. brawo.",
+      "spray": "PA PA"
+    },
+    "abandoned": {
+      "kicker": "Zaginiona w akcji",
+      "body": "{hours, plural, one {# godzina} few {# godziny} many {# godzin} other {# godziny}} wspólnego życia, a od {years, plural, one {roku} other {# lat}} ani słowa.",
+      "note": "ona nadal czeka"
+    },
+    "recent": {
+      "kicker": "Ostatnie 2 tygodnie",
+      "unit": "godzin",
+      "noteIdle": "biblioteka też ma prawo odpocząć",
+      "noteMild": "umiarkowanie. jak na razie.",
+      "noteBusy": "to prawie drugi etat",
+      "spray": "ZNOWU?!"
+    },
+    "verdict": {
+      "kicker": "Recenzja końcowa",
+      "signature": "— Krytyk",
+      "full": {
+        "title": "Dwie gwiazdki. Jedna za frekwencję.",
+        "body": "Rozmach imponujący, wykonanie godne pożałowania. Zaległości do nadrobienia: reszta życia."
+      },
+      "hidden": {
+        "title": "Czas gry ukryty.",
+        "body": "Krytyk rozumie. Też by ukrył."
+      },
+      "empty": {
+        "title": "Pusta biblioteka.",
+        "body": "Pierwsza dobra decyzja, jaką tu widać."
+      }
+    },
+    "cover": {
+      "masthead": "Roast",
+      "issue": "Wydanie specjalne",
+      "exclusive": "Na wyłączność: {name}",
+      "backlog": "{share} gier nietkniętych. Skandal.",
+      "obsession": "{game}: związek na {hours} godzin",
+      "hours": "{hours} godzin i nic do pokazania",
+      "unknown": "Brak danych. Brak litości.",
+      "note": "wyjdź na dwór. serio.",
+      "spray": "WSTYD",
+      "disclaimer": "Projekt niepowiązany z Valve ani Steam.",
+      "mastheadLine": "Yourself"
     }
   }
 }
