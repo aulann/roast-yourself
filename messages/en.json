@@ -13,7 +13,8 @@
     "correction": "demolition pending",
     "lead": "The critic is still unpacking, but your Steam library is already under review.",
     "cta": "Connect Steam",
-    "demo": "Watch the demo"
+    "demo": "Watch the demo",
+    "spotify": "Upload Spotify"
   },
   "archive": {
     "title": "Back issues",
@@ -132,7 +133,116 @@
       "note": "go outside. seriously.",
       "spray": "SHAME",
       "disclaimer": "Not affiliated with Valve or Steam.",
-      "mastheadLine": "Yourself"
+      "mastheadLine": "Yourself",
+      "loop": "{track}: {run} times in a row",
+      "night": "{share} of listening at night. A scandal.",
+      "exclusiveAnon": "Exclusive",
+      "repeat": "{track}: {count} times in {plays} plays",
+      "dominant": "{artist}: {count} of {total} favourite tracks"
+    },
+    "listen_opening": {
+      "kicker": "Listening history review",
+      "title": "Your ears",
+      "struck": "Refined taste",
+      "note": "more like a habit",
+      "body": "{plays} plays, {artists} artists, {fromYear}–{toYear}. The critic listened to it all. The critic regrets it."
+    },
+    "listen_hours": {
+      "kicker": "Exhibit A",
+      "unit": "hours listened",
+      "body": "That is {days, plural, one {# day} other {# days}} straight, with no silence and no mercy for the neighbours.",
+      "note": "silence is a genre too"
+    },
+    "listen_artist": {
+      "kicker": "Prime suspect",
+      "body": "{hours} h and {plays} plays, or {share} of all your time.",
+      "note": "less taste, more loyalty",
+      "spray": "AGAIN?!"
+    },
+    "listen_tracks": {
+      "kicker": "Hall of shame",
+      "note": "a playlist nobody ordered"
+    },
+    "listen_clock": {
+      "kicker": "When you do it",
+      "chartLabel": "Most listening: {day}, hour {hour}",
+      "days": {
+        "d0": "Mon",
+        "d1": "Tue",
+        "d2": "Wed",
+        "d3": "Thu",
+        "d4": "Fri",
+        "d5": "Sat",
+        "d6": "Sun"
+      },
+      "peak": "Peak: {day}, {hour}:00",
+      "note": "a routine worthy of an office"
+    },
+    "listen_night": {
+      "kicker": "Night shift",
+      "unit": "hours between midnight and 5",
+      "body": "That is {share} of all your listening.",
+      "note": "sleep is a good album too"
+    },
+    "listen_loop": {
+      "kicker": "The loop",
+      "unit": "times in a row",
+      "body": "{track} by {artist}. Non-stop, as if the next time would change anything.",
+      "note": "it did not"
+    },
+    "listen_skips": {
+      "kicker": "Indecision",
+      "unit": "tracks skipped",
+      "body": "That is {share} of everything we could tell.",
+      "note": "who picked these, then?",
+      "spray": "NEXT"
+    },
+    "live_opening": {
+      "kicker": "Music taste review",
+      "title": "Your ears",
+      "struck": "Refined taste",
+      "note": "more like a habit",
+      "body": "{artists} artists in your last {plays} plays. The critic listened to it all. The critic regrets it."
+    },
+    "live_artists": {
+      "kicker": "Prime suspects",
+      "note": "a line-up nobody ordered"
+    },
+    "live_tracks": {
+      "kicker": "Hall of shame",
+      "note": "and you chose this"
+    },
+    "live_dominant": {
+      "kicker": "Monopoly",
+      "unit": "of {total} favourite tracks",
+      "body": "All by one artist: {artist}.",
+      "note": "other bands exist"
+    },
+    "live_month": {
+      "kicker": "The last month",
+      "unit": "new artists",
+      "same": "Same favourite as ever: {artist}. As predictable as a calendar.",
+      "changed": "New favourite: {artist}. Loyalty did not last.",
+      "note": "a month like any other"
+    },
+    "live_repeat": {
+      "kicker": "The loop",
+      "unit": "times in the last {plays}",
+      "body": "{track} by {artist}. As if the next time would change anything.",
+      "note": "it did not",
+      "spray": "AGAIN?!"
+    },
+    "live_decade": {
+      "kicker": "Stopped clock",
+      "unit": "of favourite tracks",
+      "body": "Most of them are from the {decade}s. Music is reportedly still being made.",
+      "note": "newer albums exist"
+    },
+    "live_explicit": {
+      "kicker": "Language",
+      "unit": "of favourite tracks",
+      "body": "That many carry an explicit label.",
+      "note": "the neighbours know"
     }
   },
   "roastForm": {
@@ -176,6 +286,45 @@
       "line1": "the critic browses your library. sighs.",
       "line2": "the critic asks for something stronger…",
       "line3": "the critic looks for the red pen…"
+    }
+  },
+  "spotify": {
+    "title": "Your Spotify history",
+    "lead": "Upload your data export. The file is read in this browser and never reaches the server.",
+    "drop": "Choose your export file",
+    "dropHint": "A ZIP file or JSON files with your listening history. Anything else in the export, like payment data, is not even opened.",
+    "parsing": "the critic puts on headphones…",
+    "disclosure": "The file stays in your browser. The stats and the names above go to the server, then through OpenRouter to an AI model provider, with data collection denied. Plays from private sessions are left out. Limit: 3 reviews a day.",
+    "titlesHeading": "Names the critic will see",
+    "titlesLead": "Remove any artists and tracks you would rather not show. They also leave the stats, and others may take their place.",
+    "stats": {
+      "hours": "Hours listened",
+      "plays": "Plays",
+      "artists": "Artists",
+      "years": "Years"
+    },
+    "errors": {
+      "no_history": "This file has no listening history. You need a Spotify data export, for example StreamingHistory_music_0.json.",
+      "invalid": "This file could not be read. Check that it is an undamaged Spotify export.",
+      "too_large": "This file is too large for the browser. Upload the individual JSON files instead of the whole archive."
+    },
+    "guide": {
+      "title": "How to get your export",
+      "step1": "Open the privacy settings of your Spotify account.",
+      "step2": "Request your account data (the last year, usually a few days) or the extended history (the whole account, up to 30 days).",
+      "step3": "Confirm the request in the email from Spotify.",
+      "step4": "When the data arrives, download the ZIP file and upload it here."
+    },
+    "live": {
+      "connect": "Connect Spotify",
+      "connectLead": "The quickest way: one click, with no wait for an export. The critic sees your rankings and recent plays, but not your listening hours.",
+      "connectFailed": "We could not connect to Spotify. Please try again.",
+      "disconnect": "Disconnect Spotify",
+      "unavailable": "Spotify is not responding. Please try again shortly.",
+      "expired": "Your Spotify connection expired. Disconnect and connect again.",
+      "notAllowed": "This app is in test mode and only works for a few listed accounts, and yours is not one of them. You can upload an export below instead.",
+      "empty": "Spotify has no rankings or plays to review for this account yet.",
+      "disclosure": "The server fetches your rankings and last 50 plays from Spotify. The token lasts under an hour, sits encrypted in a cookie and is stored nowhere else. The stats and the names above go through OpenRouter to an AI model provider, with data collection denied. The finished roast stays in your archive. Limit: 3 reviews a day."
     }
   }
 }

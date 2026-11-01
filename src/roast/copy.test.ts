@@ -62,13 +62,16 @@ describe("validateRoastOutput", () => {
     expect(problems[0]).toContain("invented numbers 9000");
   });
 
-  it("allows small everyday numbers", () => {
-    const { problems } = validateRoastOutput(
-      output({ hours: { body: "O 3 w nocy." } }),
-      DECK,
-    );
-    expect(problems).toEqual([]);
-  });
+  it.each(["O 3 w nocy.", "Tak 24 godziny na dobę."])(
+    "allows everyday numbers: %s",
+    (body) => {
+      const { problems } = validateRoastOutput(
+        output({ hours: { body } }),
+        DECK,
+      );
+      expect(problems).toEqual([]);
+    },
+  );
 
   it.each(["Kupiłeś to.", "Kupiłaś to.", "Czy to KUPIŁEŚ?"])(
     "rejects Polish text assuming gender: %s",
@@ -130,6 +133,28 @@ describe("validateRoastOutput", () => {
     expect(problems).toEqual([]);
   });
 
+  it.each([
+    ["90", 1990],
+    ["00", 2000],
+  ])("allows the short form of a decade: %s", (short, decade) => {
+    const deck: DeckSlide[] = [{ type: "live_decade", decade, share: 0.5 }];
+    const { problems } = validateRoastOutput(
+      {
+        slides: [
+          {
+            type: "live_decade",
+            title: "",
+            body: `Lata ${short}.`,
+            note: "x",
+            spray: "",
+          },
+        ],
+      },
+      deck,
+    );
+    expect(problems).toEqual([]);
+  });
+
   it("allows gender-neutral Polish text", () => {
     const { problems } = validateRoastOutput(
       output({ hours: { body: "Nie uruchomiono. Kupiono. Została kupka." } }),
@@ -149,10 +174,10 @@ describe("validateRoastOutput", () => {
 
   it("rejects text that would not fit the slide", () => {
     const { problems } = validateRoastOutput(
-      output({ hours: { note: "x".repeat(45) } }),
+      output({ hours: { note: "x".repeat(56) } }),
       DECK,
     );
-    expect(problems[0]).toContain("longer than 44");
+    expect(problems[0]).toContain("much longer than 44");
   });
 
   it("rejects missing, repeated and foreign slides", () => {

@@ -83,7 +83,7 @@ describe("generateRoastCopy", () => {
     await generateRoastCopy(deck, "mild", "en", model).catch(() => null);
     const sent = JSON.stringify(model.doGenerateCalls[0].prompt);
     expect(sent).toContain("100%");
-    expect(sent).not.toContain("days");
+    expect(sent).not.toContain('days\\":');
   });
 
   it("sends game data only inside the data block, without the player's name", async () => {

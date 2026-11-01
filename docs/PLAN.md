@@ -32,7 +32,7 @@
 - **Potwierdzenie konta:** „Sign in through Steam” (OpenID 2.0), po zalogowaniu w Clerku. Nie ma wpisywania cudzych profili, bo [warunki API](https://steamcommunity.com/dev/apiterms) pozwalają pobierać dane tylko na prośbę użytkownika, którego dotyczą.
 - **Połączenie:** podpisane ciasteczko na godzinę, związane z kontem Clerk. SteamID nie jest zapisywane w bazie.
 - **Klucz API:** tylko na serwerze (`STEAM_WEB_API_KEY`), limit 100 000 wywołań dziennie.
-- **Statystyki v1:** liczba gier, łączny czas, czas z 2 tygodni, nigdy nieuruchomione, porzucone przed upływem godziny, top 5, udział ulubionej gry, najdłużej porzucony tytuł. Osiągnięcia wymagają osobnego wywołania na każdą grę, więc na razie odpadają.
+- **Statystyki v1 (Steam):** liczba gier, łączny czas, czas z 2 tygodni, nigdy nieuruchomione, porzucone przed upływem godziny, top 5, udział ulubionej gry, najdłużej porzucony tytuł. Osiągnięcia wymagają osobnego wywołania na każdą grę, więc na razie odpadają.
 
 ## 2. Ryzyka i ograniczenia
 
@@ -124,6 +124,8 @@ OAuth Spotify -> serwer: pobranie i statystyki, bez zapisu -+         |
 - **Język roastu.** Ustalany przy generowaniu i zapisywany. Publiczny link pokazuje roast w tym języku, niezależnie od ustawień oglądającego.
 
 ### Parser eksportu
+- Z archiwum odczytuje wyłącznie pliki z historią, a z rekordów tylko potrzebne pola. Adres IP, nazwa użytkownika i dane o płatnościach nie są przetwarzane.
+- Odtworzenia z sesji prywatnych (`incognito_mode`) są pomijane, bo użytkownik celowo je ukrył.
 - Obsługuje oba formaty: podstawowe dane konta i rozszerzoną historię, jako ZIP lub JSON. Format wykrywa automatycznie.
 - Działa w Web Workerze, z paskiem postępu; pliki rozszerzonej historii mogą być duże.
 - Przypadki do testów: brak metadanych utworu, `skipped` równe `null` lub brak tego pola, podcasty i audiobooki, bardzo krótkie odtworzenia, uszkodzony lub niewłaściwy plik.
@@ -137,8 +139,14 @@ Użytkownicy są tylko w Clerku; w bazie przechowujemy `clerk_user_id`.
 
 Webhook Clerka `user.deleted` usuwa wszystkie dane użytkownika. Rozłączenie konta Spotify przerywa przetwarzanie i usuwa dane z tej ścieżki, zgodnie z sekcją I.2 Developer Policy.
 
+### OAuth Spotify
+- API nie podaje liczby odtworzeń ani godzin, tylko rankingi (ok. 4 tygodnie i ok. rok) oraz 50 ostatnich odtworzeń. Prezentacja OAuth pokazuje więc rankingi bez skali, dominację w top 50, zmiany w ostatnim miesiącu, powtórki, dekady i oznaczenia explicit.
+- Dostęp: scope `user-top-read` i `user-read-recently-played`. Access token leży zaszyfrowany (AES-GCM) w ciasteczku krócej niż godzinę, związany z kontem Clerk. Refresh token jest odrzucany.
+- Serwer pobiera dane sam i liczy statystyki, więc wykluczanie działa jak przy Steamie, a klient nie może ich sfałszować.
+- Lokalnie trzeba otwierać aplikację pod `http://127.0.0.1:3000`, bo Spotify nie akceptuje `localhost` jako adresu powrotu.
+
 ### Zmienne środowiskowe
-`OPENROUTER_API_KEY`, `ROAST_MODEL`, `DATABASE_URL`, `CLERK_*`, `MONTHLY_BUDGET_USD`, `SPOTIFY_OAUTH_ENABLED`, `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`.
+`OPENROUTER_API_KEY`, `ROAST_MODEL`, `DATABASE_URL`, `CLERK_*`, `MONTHLY_BUDGET_USD`, `STEAM_WEB_API_KEY`, `STEAM_LINK_SECRET`, `SPOTIFY_OAUTH_ENABLED`, `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_LINK_SECRET`.
 
 ### Pakiety (najnowsze wersje na 2026-11-01)
 `next` 16.4, `react` 19.3, `ai` 7, `@openrouter/ai-sdk-provider` 3.1, `@clerk/nextjs` 7.9, `drizzle-orm` 0.45, `@neondatabase/serverless` 1.2, `motion` 14.9, `zod` 4.6, Tailwind CSS, `next-intl`, `fflate`. Wykresy: własne SVG z `d3-scale`, bo muszą pasować do odręcznego stylu. Grafiki: `next/og`. Jego ograniczenia CSS oznaczają, że tekstury spray i taśmy będą gotowymi obrazami. Zgodność pakietów sprawdzamy przy instalacji.

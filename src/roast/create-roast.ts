@@ -1,67 +1,44 @@
-import { computeSteamStats, type SteamStats } from "@/sources/steam/stats";
-import type { SteamProfile } from "@/sources/steam/client";
 import type { DeckCopy } from "./copy";
-import { buildSteamDeck, type DeckSlide } from "./deck";
+import type { DeckSlide } from "./deck";
 import { RoastGenerationError } from "./generate";
-import type { Heat, RoastLocale } from "./prompt";
 
 export type CreateRoastResult =
   | { status: "ok"; id: string }
   | { status: "budget" | "limit" | "unavailable" | "failed" };
 
-export type CreateRoastDeps = {
+export type CreateRoastDeps<Stats> = {
   hasBudget: () => Promise<boolean>;
   reserve: () => Promise<boolean>;
   release: () => Promise<void>;
   addCost: (costUsd: number) => Promise<void>;
-  fetchProfile: () => Promise<SteamProfile>;
-  generate: (
-    deck: DeckSlide[],
-    heat: Heat,
-    locale: RoastLocale,
-  ) => Promise<{ copy: DeckCopy; costUsd: number }>;
+  /** Null when the source has nothing to review right now. */
+  prepare: () => Promise<{ stats: Stats; deck: DeckSlide[] } | null>;
+  generate: (deck: DeckSlide[]) => Promise<{ copy: DeckCopy; costUsd: number }>;
   save: (roast: {
-    stats: SteamStats;
+    stats: Stats;
     deck: DeckSlide[];
     copy: DeckCopy;
   }) => Promise<string>;
 };
 
 /** Runs the whole flow. A roast that never reaches the user does not use up their daily limit. */
-export async function createSteamRoast(
-  input: {
-    heat: Heat;
-    locale: RoastLocale;
-    excludedAppIds: number[];
-    nowSeconds: number;
-  },
-  deps: CreateRoastDeps,
+export async function createRoast<Stats>(
+  deps: CreateRoastDeps<Stats>,
 ): Promise<CreateRoastResult> {
   if (!(await deps.hasBudget())) return { status: "budget" };
   if (!(await deps.reserve())) return { status: "limit" };
 
   try {
-    const profile = await deps.fetchProfile();
-    if (profile.status !== "ok") {
+    const prepared = await deps.prepare();
+    if (!prepared) {
       await deps.release();
       return { status: "unavailable" };
     }
 
-    const excluded = new Set(input.excludedAppIds);
-    const stats = computeSteamStats(
-      profile.games.filter((game) => !excluded.has(game.appid)),
-      input.nowSeconds,
-    );
-    const deck = buildSteamDeck(profile.name, stats, input.nowSeconds);
-
-    const { copy, costUsd } = await deps.generate(
-      deck,
-      input.heat,
-      input.locale,
-    );
+    const { copy, costUsd } = await deps.generate(prepared.deck);
     await deps.addCost(costUsd);
 
-    const id = await deps.save({ stats, deck, copy });
+    const id = await deps.save({ ...prepared, copy });
     return { status: "ok", id };
   } catch (error) {
     await deps.release();

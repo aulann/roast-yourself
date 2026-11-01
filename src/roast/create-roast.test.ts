@@ -1,70 +1,45 @@
 import { describe, expect, it, vi } from "vitest";
-import { createSteamRoast, type CreateRoastDeps } from "./create-roast";
+import { createRoast, type CreateRoastDeps } from "./create-roast";
 import { RoastGenerationError } from "./generate";
 
-const NOW = 2_000_000_000;
-const INPUT: Parameters<typeof createSteamRoast>[0] = {
-  heat: "spicy",
-  locale: "pl",
-  excludedAppIds: [],
-  nowSeconds: NOW,
-};
-
-const GAMES = [
-  { appid: 1, name: "Keep", playtime_forever: 600 },
-  { appid: 2, name: "Embarrassing", playtime_forever: 6000 },
-];
-
-function deps(overrides: Partial<CreateRoastDeps> = {}) {
+function deps(overrides: Partial<CreateRoastDeps<string>> = {}) {
   return {
     hasBudget: vi.fn(async () => true),
     reserve: vi.fn(async () => true),
     release: vi.fn(async () => {}),
     addCost: vi.fn(async () => {}),
-    fetchProfile: vi.fn(async () => ({
-      status: "ok" as const,
-      name: "Gracz",
-      games: GAMES,
-    })),
+    prepare: vi.fn(async () => ({ stats: "stats", deck: [] })),
     generate: vi.fn(async () => ({ copy: {}, costUsd: 0.001 })),
     save: vi.fn(async () => "roast-id"),
     ...overrides,
-  } satisfies CreateRoastDeps;
+  } satisfies CreateRoastDeps<string>;
 }
 
-describe("createSteamRoast", () => {
+describe("createRoast", () => {
   it("saves the roast and records its cost", async () => {
     const d = deps();
-    expect(await createSteamRoast(INPUT, d)).toEqual({
-      status: "ok",
-      id: "roast-id",
-    });
+    expect(await createRoast(d)).toEqual({ status: "ok", id: "roast-id" });
     expect(d.addCost).toHaveBeenCalledWith(0.001);
     expect(d.release).not.toHaveBeenCalled();
   });
 
   it("stops before spending when the budget is gone", async () => {
     const d = deps({ hasBudget: vi.fn(async () => false) });
-    expect(await createSteamRoast(INPUT, d)).toEqual({ status: "budget" });
+    expect(await createRoast(d)).toEqual({ status: "budget" });
     expect(d.reserve).not.toHaveBeenCalled();
     expect(d.generate).not.toHaveBeenCalled();
   });
 
   it("stops before spending when the daily limit is reached", async () => {
     const d = deps({ reserve: vi.fn(async () => false) });
-    expect(await createSteamRoast(INPUT, d)).toEqual({ status: "limit" });
+    expect(await createRoast(d)).toEqual({ status: "limit" });
     expect(d.generate).not.toHaveBeenCalled();
     expect(d.release).not.toHaveBeenCalled();
   });
 
-  it("gives the limit back when the profile is hidden", async () => {
-    const d = deps({
-      fetchProfile: vi.fn(async () => ({
-        status: "private" as const,
-        name: "Gracz",
-      })),
-    });
-    expect(await createSteamRoast(INPUT, d)).toEqual({ status: "unavailable" });
+  it("gives the limit back when there is nothing to review", async () => {
+    const d = deps({ prepare: vi.fn(async () => null) });
+    expect(await createRoast(d)).toEqual({ status: "unavailable" });
     expect(d.release).toHaveBeenCalledOnce();
     expect(d.generate).not.toHaveBeenCalled();
   });
@@ -75,20 +50,9 @@ describe("createSteamRoast", () => {
         throw new RoastGenerationError("bad", 0.002);
       }),
     });
-    expect(await createSteamRoast(INPUT, d)).toEqual({ status: "failed" });
+    expect(await createRoast(d)).toEqual({ status: "failed" });
     expect(d.release).toHaveBeenCalledOnce();
     expect(d.addCost).toHaveBeenCalledWith(0.002);
     expect(d.save).not.toHaveBeenCalled();
-  });
-
-  it("never sends excluded games to the model", async () => {
-    const generate = vi.fn(async () => ({ copy: {}, costUsd: 0.001 }));
-    const save = vi.fn(async () => "roast-id");
-    await createSteamRoast(
-      { ...INPUT, excludedAppIds: [2] },
-      deps({ generate, save }),
-    );
-    expect(JSON.stringify(generate.mock.calls[0])).not.toContain("Embarrassing");
-    expect(JSON.stringify(save.mock.calls[0])).not.toContain("Embarrassing");
   });
 });

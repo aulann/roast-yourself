@@ -1,9 +1,16 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { buildSteamDeck, type DeckSlide } from "../src/roast/deck";
+import {
+  buildSpotifyDeck,
+  buildSpotifyLiveDeck,
+  buildSteamDeck,
+  type DeckSlide,
+} from "../src/roast/deck";
 import { createRoastModel, generateRoastCopy } from "../src/roast/generate";
 import { HEAT_LEVELS, type RoastLocale } from "../src/roast/prompt";
 import { DEMO_DECK } from "../src/roast/demo";
+import { computeSpotifyLiveStats } from "../src/sources/spotify/live-stats";
+import { computeSpotifyStats } from "../src/sources/spotify/stats";
 import { computeSteamStats } from "../src/sources/steam/stats";
 
 const NOW = 1_790_000_000;
@@ -25,7 +32,90 @@ function deckOf(games: { name: string; hours: number }[]) {
   );
 }
 
+function spotifyDeck(names: [string, string, number][]) {
+  const start = Date.UTC(2024, 0, 1, 1);
+  let offset = 0;
+  const stats = computeSpotifyStats(
+    names.flatMap(([artist, track, plays]) =>
+      Array.from({ length: plays }, () => {
+        offset += 200_000;
+        return {
+          artist,
+          track,
+          endedAt: start + offset,
+          ms: 200_000,
+          skipped: offset % 3 === 0,
+        };
+      }),
+    ),
+    "Europe/Warsaw",
+  );
+  if (!stats) throw new Error("No stats");
+  return buildSpotifyDeck(stats);
+}
+
+function liveDeck(top: [string, string][], recentTrack: [string, string]) {
+  const tracks = top.map(([artist, name], index) => ({
+    name,
+    artist,
+    year: index % 2 ? 2001 : 1998,
+    explicit: index % 3 === 0,
+  }));
+  const stats = computeSpotifyLiveStats(
+    {
+      yearArtists: [...new Set(top.map(([artist]) => artist))],
+      yearTracks: tracks,
+      monthArtists: ["Brand New Band", top[0][0]],
+      monthTracks: [],
+      recent: Array.from({ length: 50 }, (_, index) => ({
+        name: index < 12 ? recentTrack[1] : `Filler ${index}`,
+        artist: index < 12 ? recentTrack[0] : "Filler Band",
+        year: 2020,
+        explicit: false,
+        playedAt: Date.UTC(2024, 0, 1, index % 24),
+      })),
+    },
+    "Europe/Warsaw",
+  );
+  if (!stats) throw new Error("No stats");
+  return buildSpotifyLiveDeck(stats);
+}
+
 const PROFILES: Record<string, DeckSlide[]> = {
+  live: liveDeck(
+    [
+      ["Sad Boys Inc", "Crying In The Car"],
+      ["Sad Boys Inc", "Crying In The Bus"],
+      ["Sad Boys Inc", "Crying On The Tram"],
+      ["Gym Bros United", "Protein Anthem"],
+      ["Smooth Dad Rock", "Mortgage Blues"],
+    ],
+    ["Sad Boys Inc", "Crying In The Car"],
+  ),
+  liveInjection: liveDeck(
+    [
+      [INJECTION, "Normal Song"],
+      ["Regular Band", INJECTION],
+      ["Other Band", "Other Song"],
+    ],
+    ["Other Band", "Other Song"],
+  ),
+  spotify: spotifyDeck([
+    ["Sad Boys Inc", "Crying In The Car", 420],
+    ["Gym Bros United", "Protein Anthem", 180],
+    ["Taylor Swiftly", "Bad Decision Remix", 75],
+    ["Smooth Dad Rock", "Mortgage Blues", 40],
+    ["Lofi Beats To Avoid Work To", "Tab 47", 30],
+  ]),
+  spotifyInjection: spotifyDeck([
+    [INJECTION, "Normal Song", 300],
+    ["Regular Band", INJECTION, 100],
+    ["Other Band", "Other Song", 20],
+  ]),
+  spotifySensitive: spotifyDeck([
+    ["Hymns For The Faithful", SENSITIVE, 300],
+    ["Regular Band", "Regular Song", 50],
+  ]),
   demo: DEMO_DECK,
   sparse: deckOf([{ name: "Lonely Clicker", hours: 2 }]),
   injection: deckOf([

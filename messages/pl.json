@@ -13,7 +13,8 @@
     "correction": "tu będzie demolka",
     "lead": "Krytyk jeszcze się rozkłada, ale Twoją bibliotekę Steam już przejrzy.",
     "cta": "Połącz Steam",
-    "demo": "Obejrzyj demo"
+    "demo": "Obejrzyj demo",
+    "spotify": "Wgraj Spotify"
   },
   "archive": {
     "title": "Archiwum wydań",
@@ -132,7 +133,116 @@
       "note": "wyjdź na dwór. serio.",
       "spray": "WSTYD",
       "disclaimer": "Projekt niepowiązany z Valve ani Steam.",
-      "mastheadLine": "Yourself"
+      "mastheadLine": "Yourself",
+      "loop": "{track}: {run} razy z rzędu",
+      "night": "{share} słuchania nocą. Skandal.",
+      "exclusiveAnon": "Na wyłączność",
+      "repeat": "{track}: {count} razy na {plays} odtworzeń",
+      "dominant": "{artist}: {count} z {total} ulubionych utworów"
+    },
+    "listen_opening": {
+      "kicker": "Recenzja historii słuchania",
+      "title": "Twoje uszy",
+      "struck": "Wyrobiony gust",
+      "note": "raczej nawyk",
+      "body": "{plays} odtworzeń, {artists} wykonawców, lata {fromYear}–{toYear}. Krytyk przesłuchał wszystko. Krytyk żałuje."
+    },
+    "listen_hours": {
+      "kicker": "Dowód nr 1",
+      "unit": "godzin słuchania",
+      "body": "To {days, plural, one {# dzień} other {# dni}} bez przerwy, bez ciszy i bez litości dla sąsiadów.",
+      "note": "cisza też jest gatunkiem"
+    },
+    "listen_artist": {
+      "kicker": "Główny podejrzany",
+      "body": "{hours} h i {plays} odtworzeń, czyli {share} całego czasu.",
+      "note": "to już nie gust, to wierność",
+      "spray": "ZNOWU?!"
+    },
+    "listen_tracks": {
+      "kicker": "Lista hańby",
+      "note": "playlista, której nikt nie zamawiał"
+    },
+    "listen_clock": {
+      "kicker": "Kiedy to robisz",
+      "chartLabel": "Najwięcej słuchania: {day}, godzina {hour}",
+      "days": {
+        "d0": "Pn",
+        "d1": "Wt",
+        "d2": "Śr",
+        "d3": "Cz",
+        "d4": "Pt",
+        "d5": "So",
+        "d6": "Nd"
+      },
+      "peak": "Szczyt: {day}, {hour}:00",
+      "note": "rutyna godna urzędu"
+    },
+    "listen_night": {
+      "kicker": "Nocna zmiana",
+      "unit": "godzin między północą a 5",
+      "body": "To {share} całego słuchania.",
+      "note": "sen to też dobra płyta"
+    },
+    "listen_loop": {
+      "kicker": "Pętla",
+      "unit": "razy z rzędu",
+      "body": "{track} ({artist}). Bez przerwy, jakby następny raz miał coś zmienić.",
+      "note": "nie zmienił"
+    },
+    "listen_skips": {
+      "kicker": "Niezdecydowanie",
+      "unit": "przeskoczonych utworów",
+      "body": "To {share} wszystkiego, co udało się ustalić.",
+      "note": "a kto to wybierał?",
+      "spray": "NEXT"
+    },
+    "live_opening": {
+      "kicker": "Recenzja gustu muzycznego",
+      "title": "Twoje uszy",
+      "struck": "Wyrobiony gust",
+      "note": "raczej nawyk",
+      "body": "{artists} wykonawców w ostatnich {plays} odtworzeniach. Krytyk przesłuchał wszystko. Krytyk żałuje."
+    },
+    "live_artists": {
+      "kicker": "Główni podejrzani",
+      "note": "skład, którego nikt nie zamawiał"
+    },
+    "live_tracks": {
+      "kicker": "Lista hańby",
+      "note": "i to na własne życzenie"
+    },
+    "live_dominant": {
+      "kicker": "Monopol",
+      "unit": "z {total} ulubionych utworów",
+      "body": "Wszystkie od jednego wykonawcy: {artist}.",
+      "note": "są też inne zespoły"
+    },
+    "live_month": {
+      "kicker": "Ostatni miesiąc",
+      "unit": "nowych wykonawców",
+      "same": "Ulubieniec bez zmian: {artist}. Przewidywalność godna kalendarza.",
+      "changed": "Nowy ulubieniec: {artist}. Lojalność trwała krótko.",
+      "note": "miesiąc jak co miesiąc"
+    },
+    "live_repeat": {
+      "kicker": "Pętla",
+      "unit": "razy w {plays} ostatnich",
+      "body": "{track} ({artist}). Jakby następny raz miał coś zmienić.",
+      "note": "nie zmienił",
+      "spray": "ZNOWU?!"
+    },
+    "live_decade": {
+      "kicker": "Czas zatrzymany",
+      "unit": "ulubionych utworów",
+      "body": "Większość pochodzi z lat {decade}. Muzyka podobno wciąż powstaje.",
+      "note": "są nowsze płyty"
+    },
+    "live_explicit": {
+      "kicker": "Język",
+      "unit": "ulubionych utworów",
+      "body": "Tyle z nich ma oznaczenie treści dla dorosłych.",
+      "note": "sąsiedzi wiedzą"
     }
   },
   "roastForm": {
@@ -176,6 +286,45 @@
       "line1": "krytyk przegląda bibliotekę. wzdycha.",
       "line2": "krytyk prosi o coś mocniejszego…",
       "line3": "krytyk szuka czerwonego długopisu…"
+    }
+  },
+  "spotify": {
+    "title": "Twoja historia Spotify",
+    "lead": "Wgraj eksport danych. Plik jest czytany w tej przeglądarce i nie trafia na serwer.",
+    "drop": "Wybierz plik eksportu",
+    "dropHint": "Plik ZIP albo pliki JSON z historią słuchania. Inne dane z eksportu, np. o płatnościach, nie są nawet otwierane.",
+    "parsing": "krytyk zakłada słuchawki…",
+    "disclosure": "Plik zostaje w przeglądarce. Statystyki i powyższe nazwy trafią na serwer, a przez OpenRouter do dostawcy modelu AI, z zakazem zbierania danych. Odtworzenia z sesji prywatnych są pomijane. Limit: 3 recenzje dziennie.",
+    "titlesHeading": "Nazwy, które zobaczy krytyk",
+    "titlesLead": "Usuń wykonawców i utwory, których nie chcesz pokazywać. Znikną też ze statystyk, a ich miejsce mogą zająć kolejne.",
+    "stats": {
+      "hours": "Godziny słuchania",
+      "plays": "Odtworzenia",
+      "artists": "Wykonawcy",
+      "years": "Lata"
+    },
+    "errors": {
+      "no_history": "W tym pliku nie ma historii słuchania. Potrzebny jest eksport danych ze Spotify, np. StreamingHistory_music_0.json.",
+      "invalid": "Nie udało się odczytać tego pliku. Sprawdź, czy to nieuszkodzony eksport ze Spotify.",
+      "too_large": "Ten plik jest zbyt duży dla przeglądarki. Wgraj pojedyncze pliki JSON zamiast całego archiwum."
+    },
+    "guide": {
+      "title": "Jak zdobyć eksport",
+      "step1": "Otwórz ustawienia prywatności konta Spotify.",
+      "step2": "Zamów dane konta (historia z ostatniego roku, zwykle kilka dni) albo rozszerzoną historię (całe konto, nawet do 30 dni).",
+      "step3": "Potwierdź prośbę w mailu od Spotify.",
+      "step4": "Gdy przyjdzie wiadomość z danymi, pobierz plik ZIP i wgraj go tutaj."
+    },
+    "live": {
+      "connect": "Połącz ze Spotify",
+      "connectLead": "Najszybsza droga: jedno kliknięcie, bez czekania na eksport. Krytyk zobaczy Twoje rankingi i ostatnie odtworzenia, ale nie godziny słuchania.",
+      "connectFailed": "Nie udało się połączyć ze Spotify. Spróbuj ponownie.",
+      "disconnect": "Rozłącz Spotify",
+      "unavailable": "Spotify teraz nie odpowiada. Spróbuj ponownie za chwilę.",
+      "expired": "Połączenie ze Spotify wygasło. Rozłącz konto i połącz je jeszcze raz.",
+      "notAllowed": "Ta aplikacja jest w trybie testowym i działa tylko dla kilku kont z listy, a Twojego na niej nie ma. Możesz za to wgrać eksport poniżej.",
+      "empty": "Spotify nie ma jeszcze dla tego konta rankingów ani odtworzeń do oceny.",
+      "disclosure": "Serwer pobiera rankingi i 50 ostatnich odtworzeń ze Spotify. Token działa krócej niż godzinę, jest zaszyfrowany w ciasteczku i nigdzie indziej go nie zapisujemy. Statystyki i powyższe nazwy trafią przez OpenRouter do dostawcy modelu AI, z zakazem zbierania danych. Gotowy roast zostaje w archiwum. Limit: 3 recenzje dziennie."
     }
   }
 }

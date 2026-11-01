@@ -10,8 +10,9 @@ const SCHEMA_VERSION = 1;
 
 export type StoredSlides = { deck: DeckSlide[]; copy: DeckCopy };
 
-export async function saveSteamRoast(roast: {
+export async function saveRoast(roast: {
   userId: string;
+  source: "steam" | "spotify_export" | "spotify_oauth";
   locale: RoastLocale;
   heat: Heat;
   stats: unknown;
@@ -23,7 +24,7 @@ export async function saveSteamRoast(roast: {
     .insert(roasts)
     .values({
       clerkUserId: roast.userId,
-      source: "steam",
+      source: roast.source,
       locale: roast.locale,
       heat: roast.heat,
       stats: roast.stats,

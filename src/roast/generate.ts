@@ -6,7 +6,8 @@ import { buildRoastPrompt, type Heat, type RoastLocale } from "./prompt";
 
 const MAX_ATTEMPTS = 3;
 const TIMEOUT_MS = 60_000;
-const MAX_OUTPUT_TOKENS = 4000;
+// Reasoning counts towards this limit: at full effort it used up all of it about 1 time in 8.
+const MAX_OUTPUT_TOKENS = 6000;
 // Only for when OpenRouter reports no cost: deliberately above the model's real price.
 const FALLBACK_USD_PER_TOKEN = 2 / 1_000_000;
 
@@ -22,6 +23,7 @@ export function createRoastModel() {
   });
   return openrouter(roastModelId(), {
     usage: { include: true },
+    reasoning: { effort: "low" },
     provider: { data_collection: "deny", require_parameters: true },
   });
 }

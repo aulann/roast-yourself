@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { computeSteamStats } from "@/sources/steam/stats";
-import { buildSteamDeck } from "./deck";
+import { computeSpotifyLiveStats } from "@/sources/spotify/live-stats";
+import { buildSpotifyLiveDeck, buildSteamDeck } from "./deck";
 import { DEMO_DECK } from "./demo";
 
 const NOW = 2_000_000_000;
@@ -86,5 +87,67 @@ describe("buildSteamDeck", () => {
 
   it("gives the demo a full deck", () => {
     expect(DEMO_DECK).toHaveLength(10);
+  });
+});
+
+describe("buildSpotifyLiveDeck", () => {
+  const track = (name: string, artist = "Main", year = 1994) => ({
+    name,
+    artist,
+    year,
+    explicit: true,
+  });
+
+  it("uses every slide when the data is there", () => {
+    const stats = computeSpotifyLiveStats(
+      {
+        yearArtists: ["Main"],
+        monthArtists: ["New"],
+        yearTracks: [track("1"), track("2"), track("3")],
+        monthTracks: [],
+        recent: Array.from({ length: 6 }, () => ({
+          ...track("1"),
+          playedAt: 0,
+        })),
+      },
+      "UTC",
+    );
+    const deck = buildSpotifyLiveDeck(stats!);
+    expect(deck.map((slide) => slide.type)).toEqual([
+      "live_opening",
+      "live_artists",
+      "live_tracks",
+      "live_dominant",
+      "live_month",
+      "live_repeat",
+      "live_decade",
+      "live_explicit",
+      "verdict",
+      "cover",
+    ]);
+    expect(deck.at(-1)).toMatchObject({
+      headline: { kind: "repeat", count: 6, plays: 6 },
+    });
+  });
+
+  it("skips what the account does not have", () => {
+    const stats = computeSpotifyLiveStats(
+      {
+        yearArtists: ["Main"],
+        monthArtists: [],
+        yearTracks: [],
+        monthTracks: [],
+        recent: [],
+      },
+      "UTC",
+    );
+    const deck = buildSpotifyLiveDeck(stats!);
+    expect(deck.map((slide) => slide.type)).toEqual([
+      "live_opening",
+      "live_artists",
+      "verdict",
+      "cover",
+    ]);
+    expect(deck.at(-1)).toMatchObject({ headline: { kind: "unknown" } });
   });
 });

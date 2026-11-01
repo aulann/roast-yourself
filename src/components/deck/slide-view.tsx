@@ -2,7 +2,13 @@
 
 import { useFormatter, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { BacklogWaffle, RankedGames } from "@/components/deck/charts";
+import {
+  BacklogWaffle,
+  ListeningClock,
+  RankedGames,
+  RankedNames,
+  RankedTracks,
+} from "@/components/deck/charts";
 import {
   Clipping,
   HandNote,
@@ -16,8 +22,10 @@ import type { CoverHeadline, DeckSlide } from "@/roast/deck";
 const BUSY_RECENT_HOURS = 40;
 const MAX_STRUCK_LENGTH = 18;
 
+/** In characters; capitals take about a third more room, so they count for more. */
 function longestWord(text: string) {
-  return Math.max(...text.split(/\s+/).map((word) => word.length));
+  const scale = text === text.toUpperCase() ? 1.35 : 1;
+  return Math.max(...text.split(/\s+/).map((word) => word.length * scale));
 }
 
 function titleSize(text: string) {
@@ -35,7 +43,8 @@ function coverTitleSize(text: string) {
 
 /** A short text gets the animated pen stroke; a longer one wraps, so each line is crossed out. */
 function Crossed({ text, delay }: { text: string; delay?: number }) {
-  if (text.length <= MAX_STRUCK_LENGTH) {
+  const width = text === text.toUpperCase() ? text.length * 1.35 : text.length;
+  if (width <= MAX_STRUCK_LENGTH) {
     return <Struck delay={delay}>{text}</Struck>;
   }
   return (
@@ -131,6 +140,24 @@ function CoverTitle({ headline }: { headline: CoverHeadline }) {
       return t("obsession", { game: headline.game, hours: headline.hours });
     case "hours":
       return t("hours", { hours: headline.hours });
+    case "loop":
+      return t("loop", { track: headline.track, run: headline.run });
+    case "repeat":
+      return t("repeat", {
+        track: headline.track,
+        count: headline.count,
+        plays: headline.plays,
+      });
+    case "dominant":
+      return t("dominant", {
+        artist: headline.artist,
+        count: headline.count,
+        total: headline.total,
+      });
+    case "night":
+      return t("night", {
+        share: format.number(headline.share, { style: "percent" }),
+      });
     case "unknown":
       return t("unknown");
   }
@@ -275,6 +302,294 @@ export function SlideView({
         </Page>
       );
     }
+    case "listen_opening":
+      return (
+        <Page>
+          <Kicker>{t("listen_opening.kicker")}</Kicker>
+          <Title text={t("listen_opening.title")}>
+            {t("listen_opening.title")}
+          </Title>
+          <div>
+            <p className="font-serif text-[10cqw] leading-none italic">
+              <Crossed text={copy.title ?? t("listen_opening.struck")} />
+            </p>
+            <HandNote rotate={-3} className="mt-[2cqw]">
+              {copy.note ?? t("listen_opening.note")}
+            </HandNote>
+          </div>
+          <Body delay={1}>
+            {copy.body ??
+              t("listen_opening.body", {
+                plays: format.number(slide.plays),
+                artists: format.number(slide.artists),
+                fromYear: String(slide.fromYear),
+                toYear: String(slide.toYear),
+              })}
+          </Body>
+        </Page>
+      );
+    case "listen_hours":
+      return (
+        <Page>
+          <Kicker>{t("listen_hours.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.hours)}
+            unit={t("listen_hours.unit")}
+          />
+          <Body>
+            {copy.body ?? t("listen_hours.body", { days: slide.days })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("listen_hours.note")}
+          </HandNote>
+        </Page>
+      );
+    case "listen_artist":
+      return (
+        <Page>
+          <Kicker>{t("listen_artist.kicker")}</Kicker>
+          <Title text={slide.artist}>{slide.artist}</Title>
+          <Body>
+            {copy.body ??
+              t("listen_artist.body", {
+                hours: format.number(slide.hours),
+                plays: format.number(slide.plays),
+                share: percent(slide.share),
+              })}
+          </Body>
+          <HandNote rotate={3}>{copy.note ?? t("listen_artist.note")}</HandNote>
+          <SlideSpray text={copy.spray ?? t("listen_artist.spray")} />
+        </Page>
+      );
+    case "listen_tracks":
+      return (
+        <Page>
+          <Kicker>{t("listen_tracks.kicker")}</Kicker>
+          <Reveal delay={0.1}>
+            <RankedTracks tracks={slide.tracks} />
+          </Reveal>
+          <HandNote delay={1.2}>{copy.note ?? t("listen_tracks.note")}</HandNote>
+        </Page>
+      );
+    case "listen_clock": {
+      const days = [0, 1, 2, 3, 4, 5, 6].map((day) =>
+        t(`listen_clock.days.d${day}`),
+      );
+      const peakDay = days[slide.peakDay];
+      return (
+        <Page>
+          <Kicker>{t("listen_clock.kicker")}</Kicker>
+          <Reveal delay={0.1}>
+            <ListeningClock
+              cells={slide.cells}
+              peakDay={slide.peakDay}
+              peakHour={slide.peakHour}
+              days={days}
+              label={t("listen_clock.chartLabel", {
+                day: peakDay,
+                hour: slide.peakHour,
+              })}
+            />
+          </Reveal>
+          <Reveal delay={0.5}>
+            <p className="font-mono text-[3.6cqw] uppercase tracking-widest">
+              {t("listen_clock.peak", {
+                day: peakDay,
+                hour: String(slide.peakHour).padStart(2, "0"),
+              })}
+            </p>
+          </Reveal>
+          <HandNote delay={0.9}>{copy.note ?? t("listen_clock.note")}</HandNote>
+        </Page>
+      );
+    }
+    case "listen_night":
+      return (
+        <Page>
+          <Kicker>{t("listen_night.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.hours)}
+            unit={t("listen_night.unit")}
+          />
+          <Body>
+            {copy.body ??
+              t("listen_night.body", { share: percent(slide.share) })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("listen_night.note")}
+          </HandNote>
+        </Page>
+      );
+    case "listen_loop":
+      return (
+        <Page>
+          <Kicker>{t("listen_loop.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.run)}
+            unit={t("listen_loop.unit")}
+          />
+          <Body>
+            {copy.body ??
+              t("listen_loop.body", {
+                track: slide.track,
+                artist: slide.artist,
+              })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("listen_loop.note")}
+          </HandNote>
+        </Page>
+      );
+    case "listen_skips":
+      return (
+        <Page>
+          <Kicker>{t("listen_skips.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.count)}
+            unit={t("listen_skips.unit")}
+          />
+          <Body>
+            {copy.body ??
+              t("listen_skips.body", { share: percent(slide.share) })}
+          </Body>
+          <HandNote>{copy.note ?? t("listen_skips.note")}</HandNote>
+          <SlideSpray text={copy.spray ?? t("listen_skips.spray")} />
+        </Page>
+      );
+    case "live_opening":
+      return (
+        <Page>
+          <Kicker>{t("live_opening.kicker")}</Kicker>
+          <Title text={t("live_opening.title")}>
+            {t("live_opening.title")}
+          </Title>
+          <div>
+            <p className="font-serif text-[10cqw] leading-none italic">
+              <Crossed text={copy.title ?? t("live_opening.struck")} />
+            </p>
+            <HandNote rotate={-3} className="mt-[2cqw]">
+              {copy.note ?? t("live_opening.note")}
+            </HandNote>
+          </div>
+          <Body delay={1}>
+            {copy.body ??
+              t("live_opening.body", {
+                artists: slide.artists,
+                plays: slide.plays,
+              })}
+          </Body>
+        </Page>
+      );
+    case "live_artists":
+      return (
+        <Page>
+          <Kicker>{t("live_artists.kicker")}</Kicker>
+          <Reveal delay={0.1}>
+            <RankedNames items={slide.artists.map((name) => ({ name }))} />
+          </Reveal>
+          <HandNote delay={1.2}>{copy.note ?? t("live_artists.note")}</HandNote>
+        </Page>
+      );
+    case "live_tracks":
+      return (
+        <Page>
+          <Kicker>{t("live_tracks.kicker")}</Kicker>
+          <Reveal delay={0.1}>
+            <RankedNames
+              items={slide.tracks.map((track) => ({
+                name: track.name,
+                detail: track.artist,
+              }))}
+            />
+          </Reveal>
+          <HandNote delay={1.2}>{copy.note ?? t("live_tracks.note")}</HandNote>
+        </Page>
+      );
+    case "live_dominant":
+      return (
+        <Page>
+          <Kicker>{t("live_dominant.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.count)}
+            unit={t("live_dominant.unit", { total: slide.total })}
+          />
+          <Body>
+            {copy.body ?? t("live_dominant.body", { artist: slide.artist })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("live_dominant.note")}
+          </HandNote>
+        </Page>
+      );
+    case "live_month":
+      return (
+        <Page>
+          <Kicker>{t("live_month.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.newFaces)}
+            unit={t("live_month.unit")}
+          />
+          <Body>
+            {copy.body ??
+              t(slide.sameFavourite ? "live_month.same" : "live_month.changed", {
+                artist: slide.favourite,
+              })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("live_month.note")}
+          </HandNote>
+        </Page>
+      );
+    case "live_repeat":
+      return (
+        <Page>
+          <Kicker>{t("live_repeat.kicker")}</Kicker>
+          <BigNumber
+            value={format.number(slide.count)}
+            unit={t("live_repeat.unit", { plays: slide.plays })}
+          />
+          <Body>
+            {copy.body ??
+              t("live_repeat.body", {
+                track: slide.track,
+                artist: slide.artist,
+              })}
+          </Body>
+          <HandNote>{copy.note ?? t("live_repeat.note")}</HandNote>
+          <SlideSpray text={copy.spray ?? t("live_repeat.spray")} />
+        </Page>
+      );
+    case "live_decade":
+      return (
+        <Page>
+          <Kicker>{t("live_decade.kicker")}</Kicker>
+          <BigNumber
+            value={percent(slide.share)}
+            unit={t("live_decade.unit")}
+          />
+          <Body>
+            {copy.body ??
+              t("live_decade.body", { decade: String(slide.decade) })}
+          </Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("live_decade.note")}
+          </HandNote>
+        </Page>
+      );
+    case "live_explicit":
+      return (
+        <Page>
+          <Kicker>{t("live_explicit.kicker")}</Kicker>
+          <BigNumber
+            value={percent(slide.share)}
+            unit={t("live_explicit.unit")}
+          />
+          <Body>{copy.body ?? t("live_explicit.body")}</Body>
+          <HandNote className="self-end">
+            {copy.note ?? t("live_explicit.note")}
+          </HandNote>
+        </Page>
+      );
     case "verdict": {
       const title = copy.title ?? t(`verdict.${slide.variant}.title`);
       return (
@@ -302,7 +617,9 @@ export function SlideView({
             <p className="mt-[3cqw] flex justify-between gap-[3cqw] border-y border-paper/40 py-[1.2cqw] font-mono text-[2.6cqw] uppercase tracking-widest text-muted">
               <span className="shrink-0">{t("cover.issue")}</span>
               <span className="truncate">
-                {t("cover.exclusive", { name: slide.name })}
+                {slide.name
+                  ? t("cover.exclusive", { name: slide.name })
+                  : t("cover.exclusiveAnon")}
               </span>
             </p>
           </Reveal>
@@ -317,7 +634,7 @@ export function SlideView({
             <HandNote delay={1.1}>{copy.note ?? t("cover.note")}</HandNote>
           </div>
           <Spray
-            className="right-0 bottom-[7cqw] leading-none"
+            className="right-0 bottom-[9cqw] leading-none"
             style={{ fontSize: spraySize(spray, 24) }}
           >
             {spray}

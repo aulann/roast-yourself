@@ -29,6 +29,12 @@ export default function HomePage() {
         >
           {t("cta")}
         </Link>
+        <Link
+          href="/roast/spotify"
+          className="border border-paper px-4 py-3 font-mono text-xs uppercase tracking-widest"
+        >
+          {t("spotify")}
+        </Link>
       </div>
     </main>
   );

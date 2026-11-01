@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { afterAll, describe, expect, it } from "vitest";
 import { getDb } from "../src/db";
-import { getOwnRoast, listOwnRoasts, saveSteamRoast } from "../src/db/roasts";
+import { getOwnRoast, listOwnRoasts, saveRoast } from "../src/db/roasts";
 import { generationUsage, roasts } from "../src/db/schema";
 import {
   addGenerationCost,
@@ -69,8 +69,9 @@ describe("database", () => {
   });
 
   it("shows a roast only to its owner", async () => {
-    const id = await saveSteamRoast({
+    const id = await saveRoast({
       userId: USER,
+      source: "steam",
       locale: "pl",
       heat: "spicy",
       stats: { source: "steam" },

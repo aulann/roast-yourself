@@ -3,6 +3,9 @@ import type { DeckSlide } from "./deck";
 
 export const COPY_LIMITS = { title: 60, body: 170, note: 44, spray: 10 };
 
+// Models count characters badly. The prompt asks for the limit, but slides have room for a bit more.
+const LIMIT_TOLERANCE = 1.25;
+
 type CopyField = keyof typeof COPY_LIMITS;
 
 /** Which texts the model writes for each slide; everything else on a slide comes from code. */
@@ -15,6 +18,22 @@ export const COPY_FIELDS: Record<DeckSlide["type"], CopyField[]> = {
   dropped: ["body", "note", "spray"],
   abandoned: ["body", "note"],
   recent: ["note", "spray"],
+  listen_opening: ["title", "note", "body"],
+  listen_hours: ["body", "note"],
+  listen_artist: ["body", "note", "spray"],
+  listen_tracks: ["note"],
+  listen_clock: ["note"],
+  listen_night: ["body", "note"],
+  listen_loop: ["body", "note"],
+  listen_skips: ["body", "note", "spray"],
+  live_opening: ["title", "note", "body"],
+  live_artists: ["note"],
+  live_tracks: ["note"],
+  live_dominant: ["body", "note"],
+  live_month: ["body", "note"],
+  live_repeat: ["body", "note", "spray"],
+  live_decade: ["body", "note"],
+  live_explicit: ["body", "note"],
   verdict: ["title", "body"],
   cover: ["title", "note", "spray"],
 };
@@ -40,15 +59,23 @@ export type RoastOutput = z.infer<typeof roastOutputSchema>;
 export type SlideCopy = Partial<Record<CopyField, string>>;
 export type DeckCopy = Partial<Record<DeckSlide["type"], SlideCopy>>;
 
+// Harmless in a joke, like "24 hours a day" or "365 days a year".
+const EVERYDAY_NUMBERS = ["12", "24", "60", "100", "365"];
+
 /** Numbers the text may quote: everything shown on the slides, plus small everyday ones. */
 function allowedNumbers(deck: DeckSlide[]) {
-  const allowed = new Set(
-    Array.from({ length: 11 }, (_, number) => String(number)),
-  );
+  const allowed = new Set([
+    ...Array.from({ length: 11 }, (_, number) => String(number)),
+    ...EVERYDAY_NUMBERS,
+  ]);
 
   function collect(value: unknown, key?: string) {
+    // The clock's raw cells are never shown to the model, so it cannot quote them.
+    if (key === "cells") return;
     if (typeof value === "number") {
       allowed.add(String(Math.round(key === "share" ? value * 100 : value)));
+      // A decade may also be written the short way: "the 90s".
+      if (key === "decade") allowed.add(String(value % 100).padStart(2, "0"));
     } else if (typeof value === "string") {
       for (const match of value.match(/\d+/g) ?? []) allowed.add(match);
     } else if (value && typeof value === "object") {
@@ -96,9 +123,9 @@ export function validateRoastOutput(
     for (const field of COPY_FIELDS[type]) {
       const text = slides[0][field].trim();
       if (!text) problems.push(`${type}.${field}: empty`);
-      if (text.length > COPY_LIMITS[field]) {
+      if (text.length > COPY_LIMITS[field] * LIMIT_TOLERANCE) {
         problems.push(
-          `${type}.${field}: longer than ${COPY_LIMITS[field]} characters`,
+          `${type}.${field}: much longer than ${COPY_LIMITS[field]} characters`,
         );
       }
       const invented = quotedNumbers(text).filter((n) => !allowed.has(n));
