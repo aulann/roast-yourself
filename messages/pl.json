@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "title": "Roast Yourself",
+    "description": "Wgraj dane ze Spotify i pozwól znudzonemu krytykowi zrecenzować Twój gust."
+  },
+  "nav": {
+    "archive": "Archiwum",
+    "signIn": "Zaloguj się"
+  },
+  "home": {
+    "issue": "Wydanie nr 00",
+    "title": "Sztuka dobrego gustu",
+    "correction": "tu będzie demolka",
+    "lead": "Krytyk jeszcze się rozkłada. Wróć wkrótce i przynieś swoje dane ze Spotify."
+  },
+  "archive": {
+    "title": "Archiwum wydań",
+    "empty": "Nie masz jeszcze żadnego wydania. Krytyk czeka."
+  }
+}

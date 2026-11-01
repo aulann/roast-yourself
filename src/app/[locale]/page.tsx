@@ -1,0 +1,20 @@
+import { useTranslations } from "next-intl";
+
+export default function HomePage() {
+  const t = useTranslations("home");
+
+  return (
+    <main className="flex flex-1 flex-col justify-center gap-6 px-4 py-16 sm:px-8">
+      <p className="font-mono text-xs uppercase tracking-widest text-muted">
+        {t("issue")}
+      </p>
+      <h1 className="max-w-4xl font-serif text-5xl leading-none sm:text-8xl">
+        {t("title")}
+      </h1>
+      <p className="-rotate-2 font-hand text-3xl text-vandal">
+        {t("correction")}
+      </p>
+      <p className="max-w-md text-muted">{t("lead")}</p>
+    </main>
+  );
+}

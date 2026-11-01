@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "title": "Roast Yourself",
+    "description": "Upload your Spotify data and let a bored critic review your taste."
+  },
+  "nav": {
+    "archive": "Archive",
+    "signIn": "Sign in"
+  },
+  "home": {
+    "issue": "Issue No. 00",
+    "title": "The Art of Good Taste",
+    "correction": "demolition pending",
+    "lead": "The critic is still unpacking. Come back soon and bring your Spotify data."
+  },
+  "archive": {
+    "title": "Back issues",
+    "empty": "No issues yet. The critic is waiting."
+  }
+}
